@@ -105,8 +105,8 @@ func main() {
 
 		status=ObtenerStatus()
 		//ConexionGRPC(nombre_apellido+"-"+status)
-		fmt.Printf("%q\n", nombre_apellido+"-"+status)
-		//fmt.Println(nombre_apellido+"-"+status)
+		//fmt.Printf("%q\n", nombre_apellido+"-"+status)
+		fmt.Println(nombre_apellido+"-"+status)
 	}
 	fmt.Println("\nSe mandaron 5 Nombres iniciales ...\nMandando datos cada 3 segundos ...\n")
 	for{
@@ -124,8 +124,8 @@ func main() {
 
 		status=ObtenerStatus()
 		//ConexionGRPC(nombre_apellido+"-"+status)
-		fmt.Printf("%q\n", nombre_apellido+"-"+status)
-		//fmt.Println(nombre_apellido+"-"+status)
+		//fmt.Printf("%q\n", nombre_apellido+"-"+status)
+		fmt.Println(nombre_apellido+"-"+status)
 	}
 	
 
