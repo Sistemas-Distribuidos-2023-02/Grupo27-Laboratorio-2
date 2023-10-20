@@ -11,8 +11,8 @@ import (
 	"strings"
 	"time"
 
-	pb "github.com/Sistemas-Distribuidos-2023-02/Grupo27-Laboratorio-1/protos"
-	amqp "github.com/rabbitmq/amqp091-go"
+	pb "github.com/Sistemas-Distribuidos-2023-02/Grupo27-Laboratorio-2/protos"
+	"github.com/streadway/amqp"
 	"google.golang.org/grpc"
 )
 var server_name string

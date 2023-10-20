@@ -1,4 +1,4 @@
-module github.com/Sistemas-Distribuidos-2023-02/Grupo27-Laboratorio-1
+module github.com/Sistemas-Distribuidos-2023-02/Grupo27-Laboratorio-2
 
 go 1.18
 
