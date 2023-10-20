@@ -48,6 +48,8 @@ func ConexionGRPC(mensaje string ){
 	}
 }
 
+var nombresUsados []int = make([]int, 407)
+
 func ObtenerNombre() string{
 	directorioActual, err := os.Getwd()
     if err != nil {
@@ -58,16 +60,43 @@ func ObtenerNombre() string{
 	if err != nil {
 		log.Fatal(err)
 	}
-	rand.Seed(time.Now().UnixNano())
-	lineas := strings.Split(string(content), "\n")
-	rand_num:=rand.Intn(len(lineas)-1)
-	linea:=lineas[rand_num]
-	nombre:=strings.Split(linea," ")[0]
-	apellido:=strings.Split(linea," ")[1]
+	remove:=func (s []int, i int) []int {
+		
+		s[i] = s[len(s)-1]
+		return s[:len(s)-1]
+	}
 
-	result:=nombre+"-"+apellido
-	result=strings.Replace(result, "\r", "", -1)
-	return result
+	try:=func()string{
+
+		if len(nombresUsados) == 0 {
+			fmt.Println("\nNo hay mas nombres disponibles")
+			os.Exit(0)
+		}
+
+		rand.Seed(time.Now().UnixNano())
+		lineas := strings.Split(string(content), "\n")
+
+		var rand_num int
+		if len(nombresUsados) == 1 {
+			rand_num=0
+		}else{
+			rand_num=rand.Intn(len(nombresUsados)-1)
+		}
+		
+		
+		linea:=lineas[nombresUsados[rand_num]]
+
+		nombresUsados=remove(nombresUsados,rand_num)
+		nombre:=strings.Split(linea," ")[0]
+		apellido:=strings.Split(linea," ")[1]
+	
+		nombre_apellido:=nombre+"-"+apellido
+		nombre_apellido=strings.Replace(nombre_apellido, "\r", "", -1)
+
+		return nombre_apellido}
+	
+	nombre_apellido:=try()
+	return nombre_apellido
 }
 
 func ObtenerStatus() string{
@@ -81,52 +110,34 @@ func ObtenerStatus() string{
 
 var server_name string
 func main() {
-	
-	nombresUsados := make(map[string]bool)
-	//LEER EL ARCHIVO
-	
-	//OBTENER NOMBRE
+		
 	server_name = "LatinoAmerica"
 	fmt.Println("Iniciando regional "+server_name+" . . .")
-	//MANDAR 5 DATOS
+
+	for i := 0; i < 407; i++ {
+		nombresUsados[i] = i
+	}
+
 	var nombre_apellido string
 	var status string
+
+	//MANDAR 5 DATOS INICIALES
 	for i := 0; i < 5; i++ {
 		nombre_apellido=ObtenerNombre()
-		
-		for {
-			if nombresUsados[nombre_apellido]{
-				nombre_apellido=ObtenerNombre()
-			}else{
-				nombresUsados[nombre_apellido]=true
-				break
-			}
-		}
-
 		status=ObtenerStatus()
-		//ConexionGRPC(nombre_apellido+"-"+status)
-		//fmt.Printf("%q\n", nombre_apellido+"-"+status)
-		fmt.Println(nombre_apellido+"-"+status)
+		ConexionGRPC(nombre_apellido+"-"+status)
+		//fmt.Println(nombre_apellido+"-"+status)
 	}
+
 	fmt.Println("\nSe mandaron 5 Nombres iniciales ...\nMandando datos cada 3 segundos ...\n")
+
+	//MANDAR DATOS CADA 3 SEGUNDOS
 	for{
-		//time.Sleep(3*time.Second)
+		time.Sleep(3*time.Second)
 		nombre_apellido=ObtenerNombre()
-
-		for {
-			if nombresUsados[nombre_apellido]{
-				nombre_apellido=ObtenerNombre()
-			}else{
-				nombresUsados[nombre_apellido]=true
-				break
-			}
-		}
-
 		status=ObtenerStatus()
-		//ConexionGRPC(nombre_apellido+"-"+status)
-		//fmt.Printf("%q\n", nombre_apellido+"-"+status)
-		fmt.Println(nombre_apellido+"-"+status)
+		ConexionGRPC(nombre_apellido+"-"+status)
+		//fmt.Println(nombre_apellido+"-"+status)
 	}
 	
-
 }
