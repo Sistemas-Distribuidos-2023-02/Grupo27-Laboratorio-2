@@ -60,10 +60,15 @@ func ObtenerNombre() string{
 	}
 	rand.Seed(time.Now().UnixNano())
 	lineas := strings.Split(string(content), "\n")
+
+	fmt.Println("\n--->Len: ",len(lineas))
+
 	rand_num:=rand.Intn(len(lineas)-1)
 	linea:=lineas[rand_num]
 	nombre:=strings.Split(linea," ")[0]
 	apellido:=strings.Split(linea," ")[1]
+
+	
 	return nombre+"-"+apellido
 }
 
@@ -123,4 +128,5 @@ func main() {
 		fmt.Println(nombre_apellido+"-"+status)
 	}
 	
+
 }
