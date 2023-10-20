@@ -60,7 +60,7 @@ func ObtenerNombre() string{
 	}
 
 	lineas := strings.Split(string(content), "\n")
-	rand_num:=rand.Intn(len(lineas))
+	rand_num:=rand.Intn(len(lineas)-1)
 	fmt.Println("Numero random: ",rand_num)
 	linea:=lineas[rand_num]
 	fmt.Println("Linea: ",linea)
