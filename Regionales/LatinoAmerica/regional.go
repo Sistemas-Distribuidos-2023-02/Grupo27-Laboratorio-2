@@ -60,16 +60,14 @@ func ObtenerNombre() string{
 	}
 	rand.Seed(time.Now().UnixNano())
 	lineas := strings.Split(string(content), "\n")
-
-	fmt.Println("\n--->Len: ",len(lineas))
-
 	rand_num:=rand.Intn(len(lineas)-1)
 	linea:=lineas[rand_num]
 	nombre:=strings.Split(linea," ")[0]
 	apellido:=strings.Split(linea," ")[1]
 
-	
-	return nombre+"-"+apellido
+	result:=nombre+"-"+apellido
+	result=strings.Replace(result, "\r", "", -1)
+	return result
 }
 
 func ObtenerStatus() string{
@@ -107,7 +105,8 @@ func main() {
 
 		status=ObtenerStatus()
 		//ConexionGRPC(nombre_apellido+"-"+status)
-		fmt.Println(nombre_apellido+"-"+status)
+		fmt.Printf("%q\n", nombre_apellido+"-"+status)
+		//fmt.Println(nombre_apellido+"-"+status)
 	}
 	fmt.Println("\nSe mandaron 5 Nombres iniciales ...\nMandando datos cada 3 segundos ...\n")
 	for{
@@ -125,7 +124,8 @@ func main() {
 
 		status=ObtenerStatus()
 		//ConexionGRPC(nombre_apellido+"-"+status)
-		fmt.Println(nombre_apellido+"-"+status)
+		fmt.Printf("%q\n", nombre_apellido+"-"+status)
+		//fmt.Println(nombre_apellido+"-"+status)
 	}
 	
 
