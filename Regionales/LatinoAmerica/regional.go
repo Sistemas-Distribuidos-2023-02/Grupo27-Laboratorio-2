@@ -86,7 +86,7 @@ func main() {
 	fmt.Println("Iniciando regional "+server_name+" . . .")
 	//MANDAR 5 DATOS
 	var nombre_apellido string
-	//var status string
+	var status string
 	for i := 0; i < 5; i++ {
 		nombre_apellido=ObtenerNombre()
 		
@@ -95,13 +95,12 @@ func main() {
 				nombre_apellido=ObtenerNombre()
 			}else{
 				nombresUsados[nombre_apellido]=true
-				fmt.Println(nombre_apellido+"-")
 				break
 			}
 		}
 
-		//status=ObtenerStatus()
-		//ConexionGRPC(nombre_apellido+"-"+status)
+		status=ObtenerStatus()
+		ConexionGRPC(nombre_apellido+"-"+status)
 		//fmt.Println(nombre_apellido+"-"+status)
 	}
 	fmt.Println("Termino 5")
@@ -118,8 +117,8 @@ func main() {
 			}
 		}
 
-		//status=ObtenerStatus()
-		//ConexionGRPC(nombre_apellido+"-"+status)
+		status=ObtenerStatus()
+		ConexionGRPC(nombre_apellido+"-"+status)
 		//fmt.Println(nombre_apellido+"-"+status)
 	}
 	
