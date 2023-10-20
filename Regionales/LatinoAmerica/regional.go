@@ -104,7 +104,7 @@ func main() {
 		//ConexionGRPC(nombre_apellido+"-"+status)
 		fmt.Println(nombre_apellido+"-"+status)
 	}
-	fmt.Println("Se mandaron 5 Nombres iniciales ...\nMandando datos cada 3 segundos ...")
+	fmt.Println("\nSe mandaron 5 Nombres iniciales ...\nMandando datos cada 3 segundos ...\n")
 	for{
 		time.Sleep(3*time.Second)
 		nombre_apellido=ObtenerNombre()
