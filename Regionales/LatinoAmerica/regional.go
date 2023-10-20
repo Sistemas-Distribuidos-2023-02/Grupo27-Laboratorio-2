@@ -9,11 +9,11 @@ import (
 	"strings"
 	"time"
 
-	pb "github.com/Sistemas-Distribuidos-2023-02/Grupo27-Laboratorio-2/protos"
+	pb "github.com/Sistemas-Distribuidos-2023-02/Grupo27-Laboratorio-1/protos"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
 )
-var server_name string
+
 
 func ConexionGRPC(mensaje string ){
 	
@@ -53,7 +53,7 @@ func ObtenerNombre() string{
         fmt.Println("Error al obtener el directorio actual:", err)
         return ""
     }
-    content, err := os.ReadFile(directorioActual+"Regionales/names.txt")
+    content, err := os.ReadFile(directorioActual+"\\Regionales\\names.txt")
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -75,33 +75,36 @@ func ObtenerStatus() string{
 	}
 }
 
-
+var server_name string
 func main() {
+	
 	nombresUsados := make(map[string]bool)
 	//LEER EL ARCHIVO
 	
 	//OBTENER NOMBRE
 	server_name = "LatinoAmerica"
+	fmt.Println("Iniciando regional "+server_name+" . . .")
 	//MANDAR 5 DATOS
 	var nombre_apellido string
-	var status string
+	//var status string
 	for i := 0; i < 5; i++ {
 		nombre_apellido=ObtenerNombre()
-
+		
 		for {
 			if nombresUsados[nombre_apellido]{
 				nombre_apellido=ObtenerNombre()
 			}else{
 				nombresUsados[nombre_apellido]=true
+				fmt.Println(nombre_apellido+"-")
 				break
 			}
 		}
 
-		status=ObtenerStatus()
+		//status=ObtenerStatus()
 		//ConexionGRPC(nombre_apellido+"-"+status)
-		fmt.Println(nombre_apellido+"-"+status)
+		//fmt.Println(nombre_apellido+"-"+status)
 	}
-
+	fmt.Println("Termino 5")
 	for{
 		time.Sleep(3*time.Second)
 		nombre_apellido=ObtenerNombre()
@@ -115,9 +118,9 @@ func main() {
 			}
 		}
 
-		status=ObtenerStatus()
+		//status=ObtenerStatus()
 		//ConexionGRPC(nombre_apellido+"-"+status)
-		fmt.Println(nombre_apellido+"-"+status)
+		//fmt.Println(nombre_apellido+"-"+status)
 	}
 	
 }

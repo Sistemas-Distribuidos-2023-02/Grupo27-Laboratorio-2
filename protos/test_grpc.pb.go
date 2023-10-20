@@ -2,9 +2,9 @@
 // versions:
 // - protoc-gen-go-grpc v1.2.0
 // - protoc             v4.24.3
-// source: protos/protocol.proto
+// source: protos/test.proto
 
-package Grupo27_Laboratorio_2
+package Grupo27_Laboratorio_1
 
 import (
 	context "context"
@@ -23,6 +23,7 @@ const _ = grpc.SupportPackageIsVersion7
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type ChatServiceClient interface {
 	SayHello(ctx context.Context, in *Message, opts ...grpc.CallOption) (*Message, error)
+	SendKeys(ctx context.Context, in *NumberRequest, opts ...grpc.CallOption) (*NumberResponse, error)
 }
 
 type chatServiceClient struct {
@@ -42,11 +43,21 @@ func (c *chatServiceClient) SayHello(ctx context.Context, in *Message, opts ...g
 	return out, nil
 }
 
+func (c *chatServiceClient) SendKeys(ctx context.Context, in *NumberRequest, opts ...grpc.CallOption) (*NumberResponse, error) {
+	out := new(NumberResponse)
+	err := c.cc.Invoke(ctx, "/protos.ChatService/SendKeys", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // ChatServiceServer is the server API for ChatService service.
 // All implementations must embed UnimplementedChatServiceServer
 // for forward compatibility
 type ChatServiceServer interface {
 	SayHello(context.Context, *Message) (*Message, error)
+	SendKeys(context.Context, *NumberRequest) (*NumberResponse, error)
 	mustEmbedUnimplementedChatServiceServer()
 }
 
@@ -56,6 +67,9 @@ type UnimplementedChatServiceServer struct {
 
 func (UnimplementedChatServiceServer) SayHello(context.Context, *Message) (*Message, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SayHello not implemented")
+}
+func (UnimplementedChatServiceServer) SendKeys(context.Context, *NumberRequest) (*NumberResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method SendKeys not implemented")
 }
 func (UnimplementedChatServiceServer) mustEmbedUnimplementedChatServiceServer() {}
 
@@ -88,6 +102,24 @@ func _ChatService_SayHello_Handler(srv interface{}, ctx context.Context, dec fun
 	return interceptor(ctx, in, info, handler)
 }
 
+func _ChatService_SendKeys_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(NumberRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ChatServiceServer).SendKeys(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/protos.ChatService/SendKeys",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ChatServiceServer).SendKeys(ctx, req.(*NumberRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // ChatService_ServiceDesc is the grpc.ServiceDesc for ChatService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -99,7 +131,11 @@ var ChatService_ServiceDesc = grpc.ServiceDesc{
 			MethodName: "SayHello",
 			Handler:    _ChatService_SayHello_Handler,
 		},
+		{
+			MethodName: "SendKeys",
+			Handler:    _ChatService_SendKeys_Handler,
+		},
 	},
 	Streams:  []grpc.StreamDesc{},
-	Metadata: "protos/protocol.proto",
+	Metadata: "protos/test.proto",
 }
