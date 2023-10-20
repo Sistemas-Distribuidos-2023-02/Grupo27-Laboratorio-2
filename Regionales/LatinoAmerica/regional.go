@@ -6,6 +6,7 @@ import (
 	"log"
 	"math/rand"
 	"os"
+	"path/filepath"
 	"strings"
 	"time"
 
@@ -53,7 +54,7 @@ func ObtenerNombre() string{
         fmt.Println("Error al obtener el directorio actual:", err)
         return ""
     }
-    content, err := os.ReadFile(directorioActual+"\\Regionales\\names.txt")
+    content, err := os.ReadFile(filepath.Join(directorioActual,"Regionales","names.txt"))
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -100,8 +101,8 @@ func main() {
 		}
 
 		status=ObtenerStatus()
-		ConexionGRPC(nombre_apellido+"-"+status)
-		//fmt.Println(nombre_apellido+"-"+status)
+		//ConexionGRPC(nombre_apellido+"-"+status)
+		fmt.Println(nombre_apellido+"-"+status)
 	}
 	fmt.Println("Termino 5")
 	for{
@@ -118,8 +119,8 @@ func main() {
 		}
 
 		status=ObtenerStatus()
-		ConexionGRPC(nombre_apellido+"-"+status)
-		//fmt.Println(nombre_apellido+"-"+status)
+		//ConexionGRPC(nombre_apellido+"-"+status)
+		fmt.Println(nombre_apellido+"-"+status)
 	}
 	
 }
