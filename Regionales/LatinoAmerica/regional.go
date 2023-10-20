@@ -106,7 +106,7 @@ func main() {
 	}
 	fmt.Println("\nSe mandaron 5 Nombres iniciales ...\nMandando datos cada 3 segundos ...\n")
 	for{
-		time.Sleep(3*time.Second)
+		//time.Sleep(3*time.Second)
 		nombre_apellido=ObtenerNombre()
 
 		for {
