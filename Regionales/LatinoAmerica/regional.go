@@ -58,12 +58,10 @@ func ObtenerNombre() string{
 	if err != nil {
 		log.Fatal(err)
 	}
-
+	rand.Seed(time.Now().UnixNano())
 	lineas := strings.Split(string(content), "\n")
 	rand_num:=rand.Intn(len(lineas)-1)
-	fmt.Println("Numero random: ",rand_num)
 	linea:=lineas[rand_num]
-	fmt.Println("Linea: ",linea)
 	nombre:=strings.Split(linea," ")[0]
 	apellido:=strings.Split(linea," ")[1]
 	return nombre+"-"+apellido
@@ -106,7 +104,7 @@ func main() {
 		//ConexionGRPC(nombre_apellido+"-"+status)
 		fmt.Println(nombre_apellido+"-"+status)
 	}
-	fmt.Println("Termino 5")
+	fmt.Println("Se mandaron 5 Nombres iniciales ...\nMandando datos cada 3 segundos ...")
 	for{
 		time.Sleep(3*time.Second)
 		nombre_apellido=ObtenerNombre()
