@@ -61,8 +61,9 @@ func ObtenerNombre() string{
 
 	lineas := strings.Split(string(content), "\n")
 	rand_num:=rand.Intn(len(lineas))
-
-	linea:=lineas[rand_num] 
+	fmt.Println("Numero random: ",rand_num)
+	linea:=lineas[rand_num]
+	fmt.Println("Linea: ",linea)
 	nombre:=strings.Split(linea," ")[0]
 	apellido:=strings.Split(linea," ")[1]
 	return nombre+"-"+apellido
