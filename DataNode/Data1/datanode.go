@@ -60,6 +60,8 @@ func (s *Server)SayHello(ctx context.Context, in *pb.Message)(*pb.Message, error
 
 var DataNode_name string
 func main(){
+	DataNode_name="DataNode1"
+	fmt.Println("Starting "+DataNode_name+" . . .")
 
 	puerto := ":50052"
 	lis, err := net.Listen("tcp", puerto)

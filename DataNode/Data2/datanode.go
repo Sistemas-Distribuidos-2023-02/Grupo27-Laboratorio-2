@@ -4,10 +4,10 @@ import (
 	"context"
 	"fmt"
 	"log"
+	"net"
 	"os"
 	"path/filepath"
 	"strings"
-	"net"
 
 	pb "github.com/Sistemas-Distribuidos-2023-02/Grupo27-Laboratorio-1/protos"
 	"google.golang.org/grpc"
@@ -28,14 +28,14 @@ func (s *Server)SayHello(ctx context.Context, in *pb.Message)(*pb.Message, error
 	}
 	
 	if len(inMessage) > 1{
-		fileDataNode, err := os.OpenFile(filepath.Join(directorioActual,"DataNode","Data1","Data.txt"), os.O_APPEND|os.O_CREATE|os.O_WRONLY,0644)
+		fileDataNode, err := os.OpenFile(filepath.Join(directorioActual,"DataNode","Data2","Data.txt"), os.O_APPEND|os.O_CREATE|os.O_WRONLY,0644)
 		if err != nil{
 			fmt.Println("Ha ocurrido un error en la creacion del archivo: ",err)
 		}
 		fmt.Fprintln(fileDataNode, inMessage)
 		return &pb.Message{Body: "OK"}, nil
 	}else{
-		content, err := os.ReadFile(filepath.Join(directorioActual,"DataNode","Data1","Data.txt"))
+		content, err := os.ReadFile(filepath.Join(directorioActual,"DataNode","Data2","Data.txt"))
 		if err != nil {
 			log.Fatal(err)
 		}
@@ -60,6 +60,8 @@ func (s *Server)SayHello(ctx context.Context, in *pb.Message)(*pb.Message, error
 
 var DataNode_name string
 func main(){
+	DataNode_name="DataNode2"
+	fmt.Println("Starting "+DataNode_name+" . . .")
 
 	puerto := ":50052"
 	lis, err := net.Listen("tcp", puerto)
@@ -74,4 +76,8 @@ func main(){
 	if err := grpcServer.Serve(lis); err != nil {
 		panic(err)
 	}
+
+	
 }
+
+ 

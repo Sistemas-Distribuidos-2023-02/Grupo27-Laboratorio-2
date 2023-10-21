@@ -112,7 +112,7 @@ var server_name string
 func main() {
 		
 	server_name = "LatinoAmerica"
-	fmt.Println("Iniciando regional "+server_name+" . . .")
+	fmt.Println("Iniciando regional "+server_name+" . . .\n")
 
 	for i := 0; i < 407; i++ {
 		nombresUsados[i] = i
