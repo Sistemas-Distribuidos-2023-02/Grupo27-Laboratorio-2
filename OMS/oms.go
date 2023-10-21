@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"log"
 	"net"
+
 	//"os"
 	//"path/filepath"
 	"strings"
@@ -22,6 +23,7 @@ func (s *Server)SayHello(ctx context.Context, in *pb.Message)(*pb.Message, error
 
 	inMessage:=string(in.Body)
 
+	//OBTENER DIRECTORIO ACTUAL
 	/*directorioActual, err := os.Getwd()
 	if err != nil {
 		fmt.Println("Error al obtener el directorio actual:", err)
