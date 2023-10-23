@@ -44,3 +44,14 @@ else ifeq ($(HOST),dist108)
 else
 	echo "Ejecutar SOLO en dist107 y dist108"
 endif
+
+clean:
+	rm OMS/DATA.txt
+	touch OMS/DATA.txt
+
+	rm DataNode/Data1/DATA.txt
+	touch DataNode/Data1/DATA.txt
+
+	rm DataNode/Data2/DATA.txt
+	touch DataNode/Data2/DATA.txt
+	
