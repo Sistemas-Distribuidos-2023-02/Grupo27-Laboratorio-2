@@ -101,7 +101,7 @@ func (s *Server)OmsToDataNode(ctx context.Context, in *pb.Message)(*pb.Message, 
 				return &pb.Message{Body: nombre_apellido}, nil
 			}
 		}
-		return &pb.Message{Body: "ID no Encontrado"}, nil
+		return &pb.Message{Body: "ID "+inMessage+" no Encontrado"}, nil
 	}
 }
 
