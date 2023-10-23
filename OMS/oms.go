@@ -58,7 +58,7 @@ func ConexionGRPC(mensaje string, host string ) (string){
 }
 
 /*func (s *Server)SayHello(ctx context.Context, in *pb.Message)(*pb.Message, error){
-	log.Printf("Receive message body from client: %s", in.Body)
+	log.Printf("Received message body from client: %s", in.Body)
 
 	inMessage:=string(in.Body)
 
@@ -210,10 +210,14 @@ func ConexionGRPC(mensaje string, host string ) (string){
 }*/
 
 func (s *Server)RegionalToOms(ctx context.Context, in *pb.Message)(*pb.Message, error){
-	log.Printf("Receive message body from client: %s", in.Body)
-
 	inMessage:=string(in.Body)
+	split:=strings.Split(inMessage,":") //nombre-apellido-status
+	server:=split[0]
+	inMessage=split[1]
 
+	log.Printf("Received message from %s: %s", server,inMessage)
+
+	
 	//OBTENER DIRECTORIO ACTUAL
 	directorioActual, err := os.Getwd()
 	if err != nil {
@@ -263,7 +267,7 @@ func (s *Server)RegionalToOms(ctx context.Context, in *pb.Message)(*pb.Message, 
 }
 
 func (s *Server)OnuToOms(ctx context.Context, in *pb.Message)(*pb.Message, error){
-	log.Printf("Receive message body from client: %s", in.Body)
+	log.Printf("Received message from ONU: %s", in.Body)
 
 	inMessage:=string(in.Body)
 

@@ -125,7 +125,7 @@ func main() {
 	for i := 0; i < 5; i++ {
 		nombre_apellido=ObtenerNombre()
 		status=ObtenerStatus()
-		ConexionGRPC(nombre_apellido+"-"+status)
+		ConexionGRPC(server_name+":"+nombre_apellido+"-"+status)
 		//fmt.Println(nombre_apellido+"-"+status)
 	}
 
@@ -136,7 +136,7 @@ func main() {
 		time.Sleep(3*time.Second)
 		nombre_apellido=ObtenerNombre()
 		status=ObtenerStatus()
-		ConexionGRPC(nombre_apellido+"-"+status)
+		ConexionGRPC(server_name+":"+nombre_apellido+"-"+status)
 		//fmt.Println(nombre_apellido+"-"+status)
 	}
 	

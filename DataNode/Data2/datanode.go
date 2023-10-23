@@ -18,7 +18,7 @@ type Server struct {
 }
 
 /*func (s *Server)SayHello(ctx context.Context, in *pb.Message)(*pb.Message, error){
-	log.Printf("Receive message body from client: %s", in.Body)
+	log.Printf("Received message body from client: %s", in.Body)
 
 	inMessage:=string(in.Body)
 
@@ -62,7 +62,7 @@ type Server struct {
 }*/
 
 func (s *Server)OmsToDataNode(ctx context.Context, in *pb.Message)(*pb.Message, error){
-	log.Printf("Receive message body from client: %s", in.Body)
+	log.Printf("Received message body from client: %s", in.Body)
 
 	inMessage:=string(in.Body)
 

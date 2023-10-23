@@ -18,7 +18,7 @@ type Server struct {
 }
 
 /*func (s *Server)SayHello(ctx context.Context, in *pb.Message)(*pb.Message, error){
-	log.Printf("Receive message body from client: %s", in.Body)
+	log.Printf("Received message body from client: %s", in.Body)
 
 	inMessage:=string(in.Body)
 	fmt.Print("inMessage: "+inMessage+"\n")
@@ -63,7 +63,7 @@ type Server struct {
 }*/
 
 func (s *Server)OmsToDataNode(ctx context.Context, in *pb.Message)(*pb.Message, error){
-	log.Printf("Receive message body from client: %s", in.Body)
+	log.Printf("Received message from OMS: %s", in.Body)
 
 	inMessage:=string(in.Body)
 
@@ -78,6 +78,7 @@ func (s *Server)OmsToDataNode(ctx context.Context, in *pb.Message)(*pb.Message, 
 			fmt.Println("Ha ocurrido un error en la creacion del archivo: ",err)
 		}
 		fmt.Fprintln(fileDataNode, inMessage)
+		fmt.Print("Mensaje Enviado a OMS: OK\n\n")
 		return &pb.Message{Body: "OK"}, nil
 	}else{
 		content, err := os.ReadFile(filepath.Join(directorioActual,"DataNode","Data1","DATA.txt"))
@@ -100,9 +101,11 @@ func (s *Server)OmsToDataNode(ctx context.Context, in *pb.Message)(*pb.Message, 
 			nombre_apellido=strings.Replace(nombre_apellido, "\r", "", -1)
 
 			if id == inMessage {
+				fmt.Print("Mensaje Enviado a OMS: "+nombre_apellido+"\n\n")
 				return &pb.Message{Body: nombre_apellido}, nil
 			}
 		}
+		fmt.Print("Mensaje Enviado a OMS: ID "+inMessage+" no Encontrado\n\n")
 		return &pb.Message{Body: "ID "+inMessage+" no Encontrado"}, nil
 	}
 }
