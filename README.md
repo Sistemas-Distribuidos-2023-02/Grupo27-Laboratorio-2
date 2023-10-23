@@ -49,10 +49,20 @@ make docker-continentes
 5. Para revisar los log de los dockers que se ejecutan en segundo plano:
 
 ```
-docker logs-continentes
-docker logs-ONU
-docker logs-datanode
 
+En dist107 y 108:
+
+    docker logs regional
+    docker logs datanode
+
+En dist106:
+
+    docker logs regional
+
+en dist105:
+
+    docker logs regional
+    docker logs oms
 ```
 6. Para detener programa:
 ```
