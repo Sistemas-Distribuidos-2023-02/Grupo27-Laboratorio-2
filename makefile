@@ -1,3 +1,5 @@
+HOST = $(shell hostname)
+
 docker-ONU:
 ifeq ($(HOST),dist106)
 	docker build -t lab1:latest .
