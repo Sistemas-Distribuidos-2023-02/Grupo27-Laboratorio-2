@@ -4,7 +4,7 @@ docker-ONU:
 ifeq ($(HOST),dist106)
 	docker build -t lab1:latest .
 	docker rm -f onu
-	docker run -d -it --name onu -p 50052:50052 --expose 50052 lab1:latest go run ONU/onu.go
+	docker run -it --name onu -p 50052:50052 --expose 50052 lab1:latest go run ONU/onu.go
 else
 	echo "Ejecutar SOLO en dist106"
 endif
