@@ -48,7 +48,7 @@ func ConexionGRPC(mensaje string ){
 	}
 }
 
-var nombresUsados []int = make([]int, 407)
+var nombresUsados []int = make([]int, 232)
 
 func ObtenerNombre() string{
 	directorioActual, err := os.Getwd()
