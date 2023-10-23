@@ -42,6 +42,9 @@ func (s *Server)SayHello(ctx context.Context, in *pb.Message)(*pb.Message, error
 		lineas := strings.Split(string(content), "\n")
 
 		for i := 0; i < len(lineas); i++ {
+			if len(lineas[i]) <= 0{
+				continue
+			}
 			split:=strings.Split(lineas[i],"-")//id-nombre-apellido
 			id:=split[0]
 			nombre:=split[1]
@@ -83,6 +86,9 @@ func (s *Server)OmsToDataNode(ctx context.Context, in *pb.Message)(*pb.Message, 
 		lineas := strings.Split(string(content), "\n")
 
 		for i := 0; i < len(lineas); i++ {
+			if len(lineas[i]) <= 0{
+				continue
+			}
 			split:=strings.Split(lineas[i],"-")//id-nombre-apellido
 			id:=split[0]
 			nombre:=split[1]
