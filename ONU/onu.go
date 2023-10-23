@@ -65,7 +65,7 @@ func main() {
 	}
 
 	// remove the delimeter from the string
-	input = strings.TrimSuffix(input, "\r\n")
+	input = strings.TrimSuffix(input, "\n")
 	input = strings.ToUpper(input)
 	if input == "I" || input =="M" {
 		//fmt.Println(input)
