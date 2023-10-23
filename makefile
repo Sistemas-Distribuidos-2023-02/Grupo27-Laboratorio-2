@@ -39,8 +39,7 @@ docker-datanode:
 	docker rm -f datanode
 ifeq ($(HOST),dist107)
 	docker run -d -it --name datanode -p 50052:50052 --expose 50052 lab1:latest go run DataNode/Data1/datanode.go
-endif
-ifeq ($(HOST),dist108)
+else ifeq ($(HOST),dist108)
 	docker run -d -it --name datanode -p 50052:50052 --expose 50052 lab1:latest go run DataNode/Data2/datanode.go
 else
 	echo "Ejecutar SOLO en dist107 y dist108"
