@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"log"
 	"net"
+	"time"
 
 	//"os"
 	//"path/filepath"
@@ -12,10 +13,42 @@ import (
 
 	pb "github.com/Sistemas-Distribuidos-2023-02/Grupo27-Laboratorio-1/protos"
 	"google.golang.org/grpc"
+	"google.golang.org/grpc/credentials/insecure"
 )
 
 type Server struct{
 	pb.UnimplementedChatServiceServer
+}
+func ConexionGRPC(mensaje string ) (string){
+	
+	//Uno de estos debe cambiar quizas por "regional:50052" ya que estara en la misma VM que el central
+	//host :="localhost"
+	var puerto, nombre, host string
+	host="dist108.inf.santiago.usm.cl"
+	puerto ="50055"
+	nombre ="OMS"
+	
+	log.Println("Connecting to server "+nombre+": "+host+":"+puerto+". . .")
+	conn, err := grpc.Dial(host+":"+puerto,grpc.WithTransportCredentials(insecure.NewCredentials()))	
+	if err != nil {
+		log.Fatalf("Failed to connect: %v", err)
+	}
+	fmt.Printf("Esperando\n")
+	defer conn.Close()
+
+	c := pb.NewChatServiceClient(conn)
+	for {
+		log.Println("Sending message to server "+nombre+": "+mensaje)
+		response, err := c.SayHello(context.Background(), &pb.Message{Body: mensaje})
+		if err != nil {
+			log.Println("Server "+nombre+" not responding: ")
+			log.Println("Trying again in 10 seconds. . .")
+			time.Sleep(10 * time.Second)
+			continue
+		}
+		log.Printf("Response from server "+nombre+": "+"%s", response.Body)
+		return response.Body
+	}
 }
 
 func (s *Server)SayHello(ctx context.Context, in *pb.Message)(*pb.Message, error){
@@ -32,11 +65,21 @@ func (s *Server)SayHello(ctx context.Context, in *pb.Message)(*pb.Message, error
 	//ESTO SE DEBBE CAMBIAR
 	if inMessage == "I"{
 		//Pedir infectados a DataNodes y devolverlos a ONU
+		
+		response:=ConexionGRPC("1")
+		return &pb.Message{Body: response}, nil
+
 	}else if inMessage == "M"{
+		response:=ConexionGRPC("1")
+		return &pb.Message{Body: response}, nil
 		//Pedir muertos a DataNodes y devolverlos a ONU
 	}else if strings.Contains(inMessage, "-") && (strings.Contains(inMessage, "infectado") || strings.Contains(inMessage, "muerto")){
 		//Crear id no existente
 		//Agregar nombre y apellido en DataNodes
+		response:=ConexionGRPC("1")
+		return &pb.Message{Body: response}, nil
+	}else{
+		return &pb.Message{Body: "Mensaje no valido"}, nil
 	}
 
 
@@ -87,10 +130,11 @@ func main() {
 
 	grpcServer_regional:= grpc.NewServer()
 	server_regional:= &Server{}
-	pb.RegisterChatServiceServer(grpcServer_regional, server_regional)
+	go func (){pb.RegisterChatServiceServer(grpcServer_regional, server_regional)
 	if err_regional:= grpcServer_regional.Serve(lis_regional); err_regional != nil {
 		panic(err_regional)
 	}
+	}()
 
 	puerto_onu:= ":50053"
 	lis_onu, err_onu:= net.Listen("tcp", puerto_onu)
@@ -101,9 +145,10 @@ func main() {
 
 	grpcServer_onu:= grpc.NewServer()
 	server_onu:= &Server{}
-	pb.RegisterChatServiceServer(grpcServer_onu, server_onu)
+	go func () {pb.RegisterChatServiceServer(grpcServer_onu, server_onu)
 	if err_onu := grpcServer_onu.Serve(lis_onu); err_onu != nil {
 		panic(err_onu)
 	}
-
+	}()
+	
 }
