@@ -23,7 +23,7 @@ todas las VM:**
 cd Grupo27-Laboratorio-2
 ```
 
-1. Primero ejecutar en dist105:
+1. Ejecutar en dist105:
 ```
 make docker-OMS
 ```
