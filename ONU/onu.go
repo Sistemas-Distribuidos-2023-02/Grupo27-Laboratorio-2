@@ -20,8 +20,8 @@ func ConexionGRPC(mensaje string ){
 	//Uno de estos debe cambiar quizas por "regional:50052" ya que estara en la misma VM que el central
 	//host :="localhost"
 	var puerto, nombre, host string
-	host="dist108.inf.santiago.usm.cl"
-	puerto ="50055"
+	host="dist105.inf.santiago.usm.cl"
+	puerto ="50053"
 	nombre ="OMS"
 	
 	log.Println("Connecting to server "+nombre+": "+host+":"+puerto+". . .")
