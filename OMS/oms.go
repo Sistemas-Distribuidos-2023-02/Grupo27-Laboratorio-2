@@ -26,13 +26,13 @@ func ConexionGRPC(mensaje string, host string ) (string){
 	//host :="localhost"
 	var puerto, nombre string
 	if host == "DataNode1"{
-		host="dist108.inf.santiago.usm.cl"
-		puerto ="50055"
-		nombre ="OMS"
+		host="dist107.inf.santiago.usm.cl"
+		puerto ="50052"
+		nombre ="DataNode1"
 	}else if host == "DataNode2"{
 		host="dist108.inf.santiago.usm.cl"
-		puerto ="50055"
-		nombre ="OMS"
+		puerto ="50052"
+		nombre ="DataNode2"
 	}
 	log.Println("Connecting to server "+nombre+": "+host+":"+puerto+". . .")
 	conn, err := grpc.Dial(host+":"+puerto,grpc.WithTransportCredentials(insecure.NewCredentials()))	
