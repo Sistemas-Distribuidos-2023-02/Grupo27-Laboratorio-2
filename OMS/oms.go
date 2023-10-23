@@ -371,7 +371,7 @@ func (s *Server)OnuToOms(ctx context.Context, in *pb.Message)(*pb.Message, error
 		}
 		
 		infectados_response:=strings.Join(infectados, "\n")
-		return &pb.Message{Body: infectados_response}, nil
+		return &pb.Message{Body:"\n"+infectados_response+"\n"}, nil
 
 	}else{
 		return &pb.Message{Body: "Mensaje no valido"}, nil
