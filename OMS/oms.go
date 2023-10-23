@@ -325,6 +325,7 @@ func (s *Server)OnuToOms(ctx context.Context, in *pb.Message)(*pb.Message, error
 		}
 		
 		infectados_response:=strings.Join(infectados, "\n")
+		log.Println("Sending message to ONU: INFECTADOS")
 		return &pb.Message{Body:"\n"+infectados_response+"\n"}, nil
 
 	}else if inMessage == "M"{
@@ -374,6 +375,7 @@ func (s *Server)OnuToOms(ctx context.Context, in *pb.Message)(*pb.Message, error
 		}
 		
 		infectados_response:=strings.Join(infectados, "\n")
+		log.Println("Sending message to ONU: MUERTOS")
 		return &pb.Message{Body:"\n"+infectados_response+"\n"}, nil
 
 	}else{
