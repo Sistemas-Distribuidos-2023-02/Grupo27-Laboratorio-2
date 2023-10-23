@@ -57,7 +57,7 @@ func ConexionGRPC(mensaje string, host string ) (string){
 	}
 }
 
-func (s *Server)SayHello(ctx context.Context, in *pb.Message)(*pb.Message, error){
+/*func (s *Server)SayHello(ctx context.Context, in *pb.Message)(*pb.Message, error){
 	log.Printf("Receive message body from client: %s", in.Body)
 
 	inMessage:=string(in.Body)
@@ -207,7 +207,7 @@ func (s *Server)SayHello(ctx context.Context, in *pb.Message)(*pb.Message, error
 	}else{
 		return &pb.Message{Body: "Mensaje no valido"}, nil
 	}
-}
+}*/
 
 func (s *Server)RegionalToOms(ctx context.Context, in *pb.Message)(*pb.Message, error){
 	log.Printf("Receive message body from client: %s", in.Body)

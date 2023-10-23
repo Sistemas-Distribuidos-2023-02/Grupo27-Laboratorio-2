@@ -17,7 +17,7 @@ type Server struct {
 	pb.UnimplementedChatServiceServer
 }
 
-func (s *Server)SayHello(ctx context.Context, in *pb.Message)(*pb.Message, error){
+/*func (s *Server)SayHello(ctx context.Context, in *pb.Message)(*pb.Message, error){
 	log.Printf("Receive message body from client: %s", in.Body)
 
 	inMessage:=string(in.Body)
@@ -27,7 +27,7 @@ func (s *Server)SayHello(ctx context.Context, in *pb.Message)(*pb.Message, error
 		fmt.Println("Error al obtener el directorio actual:", err)
 	}
 	
-	if len(inMessage) > 1{
+	if strings.Contains(inMessage, "-"){
 		fileDataNode, err := os.OpenFile(filepath.Join(directorioActual,"DataNode","Data2","DATA.txt"), os.O_APPEND|os.O_CREATE|os.O_WRONLY,0644)
 		if err != nil{
 			fmt.Println("Ha ocurrido un error en la creacion del archivo: ",err)
@@ -59,7 +59,7 @@ func (s *Server)SayHello(ctx context.Context, in *pb.Message)(*pb.Message, error
 		}
 		return &pb.Message{Body: "ID no Encontrado"}, nil
 	}
-}
+}*/
 
 func (s *Server)OmsToDataNode(ctx context.Context, in *pb.Message)(*pb.Message, error){
 	log.Printf("Receive message body from client: %s", in.Body)
@@ -71,7 +71,7 @@ func (s *Server)OmsToDataNode(ctx context.Context, in *pb.Message)(*pb.Message, 
 		fmt.Println("Error al obtener el directorio actual:", err)
 	}
 	
-	if len(inMessage) > 1{
+	if strings.Contains(inMessage, "-"){
 		fileDataNode, err := os.OpenFile(filepath.Join(directorioActual,"DataNode","Data1","DATA.txt"), os.O_APPEND|os.O_CREATE|os.O_WRONLY,0644)
 		if err != nil{
 			fmt.Println("Ha ocurrido un error en la creacion del archivo: ",err)
