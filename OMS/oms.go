@@ -130,6 +130,10 @@ func (s *Server)SayHello(ctx context.Context, in *pb.Message)(*pb.Message, error
 
 		var infectados_id []string
 		for i := 0; i < len(lineas); i++ {
+			if len(lineas[i]) <= 0{
+				continue
+			}
+
 			split:=strings.Split(lineas[i],"-") //id-datanode-status
 			id:=split[0]
 			datanode:=split[1]
