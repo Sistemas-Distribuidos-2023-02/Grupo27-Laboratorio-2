@@ -169,6 +169,7 @@ func (s *Server)OnuToOms(ctx context.Context, in *pb.Message)(*pb.Message, error
 				go func(){
 				response:=ConexionGRPC(id,"DataNode1")
 				infectados = append(infectados, response)
+				defer wg.Done()
 				}()
 				
 			}else if datanode == "2"{
@@ -177,6 +178,7 @@ func (s *Server)OnuToOms(ctx context.Context, in *pb.Message)(*pb.Message, error
 				go func(){
 				response:=ConexionGRPC(id,"DataNode2")
 				infectados = append(infectados, response)
+				defer wg.Done()
 				}()
 			}
 		}
@@ -226,6 +228,7 @@ func (s *Server)OnuToOms(ctx context.Context, in *pb.Message)(*pb.Message, error
 				go func(){
 				response:=ConexionGRPC(id,"DataNode1")
 				infectados = append(infectados, response)
+				defer wg.Done()
 				}()
 				
 			}else if datanode == "2"{
@@ -234,6 +237,7 @@ func (s *Server)OnuToOms(ctx context.Context, in *pb.Message)(*pb.Message, error
 				go func(){
 				response:=ConexionGRPC(id,"DataNode2")
 				infectados = append(infectados, response)
+				defer wg.Done()
 				}()
 			}
 		}
