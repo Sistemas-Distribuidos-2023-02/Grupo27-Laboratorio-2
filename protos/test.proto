@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-option go_package = "https://github.com/Sistemas-Distribuidos-2023-02/Grupo27-Laboratorio-1";
+option go_package = "https://github.com/Sistemas-Distribuidos-2023-02/Grupo27-Laboratorio-2";
 package protos;
 
 message Message {
@@ -17,5 +17,8 @@ message NumberResponse{
 
 service ChatService {
   rpc SayHello(Message) returns (Message) {}
+  rpc RegionalToOms(Message) returns (Message) {}
+  rpc OnuToOms(Message) returns (Message) {}
+  rpc OmsToDataNode(Message) returns (Message) {}
   rpc SendKeys(NumberRequest) returns (NumberResponse) {}
 }

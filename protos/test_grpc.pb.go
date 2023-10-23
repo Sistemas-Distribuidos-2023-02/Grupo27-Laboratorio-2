@@ -23,6 +23,9 @@ const _ = grpc.SupportPackageIsVersion7
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type ChatServiceClient interface {
 	SayHello(ctx context.Context, in *Message, opts ...grpc.CallOption) (*Message, error)
+	RegionalToOms(ctx context.Context, in *Message, opts ...grpc.CallOption) (*Message, error)
+	OnuToOms(ctx context.Context, in *Message, opts ...grpc.CallOption) (*Message, error)
+	OmsToDataNode(ctx context.Context, in *Message, opts ...grpc.CallOption) (*Message, error)
 	SendKeys(ctx context.Context, in *NumberRequest, opts ...grpc.CallOption) (*NumberResponse, error)
 }
 
@@ -43,6 +46,33 @@ func (c *chatServiceClient) SayHello(ctx context.Context, in *Message, opts ...g
 	return out, nil
 }
 
+func (c *chatServiceClient) RegionalToOms(ctx context.Context, in *Message, opts ...grpc.CallOption) (*Message, error) {
+	out := new(Message)
+	err := c.cc.Invoke(ctx, "/protos.ChatService/RegionalToOms", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *chatServiceClient) OnuToOms(ctx context.Context, in *Message, opts ...grpc.CallOption) (*Message, error) {
+	out := new(Message)
+	err := c.cc.Invoke(ctx, "/protos.ChatService/OnuToOms", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *chatServiceClient) OmsToDataNode(ctx context.Context, in *Message, opts ...grpc.CallOption) (*Message, error) {
+	out := new(Message)
+	err := c.cc.Invoke(ctx, "/protos.ChatService/OmsToDataNode", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *chatServiceClient) SendKeys(ctx context.Context, in *NumberRequest, opts ...grpc.CallOption) (*NumberResponse, error) {
 	out := new(NumberResponse)
 	err := c.cc.Invoke(ctx, "/protos.ChatService/SendKeys", in, out, opts...)
@@ -57,6 +87,9 @@ func (c *chatServiceClient) SendKeys(ctx context.Context, in *NumberRequest, opt
 // for forward compatibility
 type ChatServiceServer interface {
 	SayHello(context.Context, *Message) (*Message, error)
+	RegionalToOms(context.Context, *Message) (*Message, error)
+	OnuToOms(context.Context, *Message) (*Message, error)
+	OmsToDataNode(context.Context, *Message) (*Message, error)
 	SendKeys(context.Context, *NumberRequest) (*NumberResponse, error)
 	mustEmbedUnimplementedChatServiceServer()
 }
@@ -67,6 +100,15 @@ type UnimplementedChatServiceServer struct {
 
 func (UnimplementedChatServiceServer) SayHello(context.Context, *Message) (*Message, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SayHello not implemented")
+}
+func (UnimplementedChatServiceServer) RegionalToOms(context.Context, *Message) (*Message, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method RegionalToOms not implemented")
+}
+func (UnimplementedChatServiceServer) OnuToOms(context.Context, *Message) (*Message, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method OnuToOms not implemented")
+}
+func (UnimplementedChatServiceServer) OmsToDataNode(context.Context, *Message) (*Message, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method OmsToDataNode not implemented")
 }
 func (UnimplementedChatServiceServer) SendKeys(context.Context, *NumberRequest) (*NumberResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SendKeys not implemented")
@@ -102,6 +144,60 @@ func _ChatService_SayHello_Handler(srv interface{}, ctx context.Context, dec fun
 	return interceptor(ctx, in, info, handler)
 }
 
+func _ChatService_RegionalToOms_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(Message)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ChatServiceServer).RegionalToOms(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/protos.ChatService/RegionalToOms",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ChatServiceServer).RegionalToOms(ctx, req.(*Message))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _ChatService_OnuToOms_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(Message)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ChatServiceServer).OnuToOms(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/protos.ChatService/OnuToOms",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ChatServiceServer).OnuToOms(ctx, req.(*Message))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _ChatService_OmsToDataNode_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(Message)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ChatServiceServer).OmsToDataNode(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/protos.ChatService/OmsToDataNode",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ChatServiceServer).OmsToDataNode(ctx, req.(*Message))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _ChatService_SendKeys_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(NumberRequest)
 	if err := dec(in); err != nil {
@@ -130,6 +226,18 @@ var ChatService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "SayHello",
 			Handler:    _ChatService_SayHello_Handler,
+		},
+		{
+			MethodName: "RegionalToOms",
+			Handler:    _ChatService_RegionalToOms_Handler,
+		},
+		{
+			MethodName: "OnuToOms",
+			Handler:    _ChatService_OnuToOms_Handler,
+		},
+		{
+			MethodName: "OmsToDataNode",
+			Handler:    _ChatService_OmsToDataNode_Handler,
 		},
 		{
 			MethodName: "SendKeys",

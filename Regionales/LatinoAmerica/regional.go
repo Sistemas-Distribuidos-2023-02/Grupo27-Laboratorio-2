@@ -10,7 +10,7 @@ import (
 	"strings"
 	"time"
 
-	pb "github.com/Sistemas-Distribuidos-2023-02/Grupo27-Laboratorio-1/protos"
+	pb "github.com/Sistemas-Distribuidos-2023-02/Grupo27-Laboratorio-2/protos"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
 )
@@ -36,7 +36,7 @@ func ConexionGRPC(mensaje string ){
 	c := pb.NewChatServiceClient(conn)
 	for {
 		log.Println("Sending message to server "+nombre+": "+mensaje)
-		response, err := c.SayHello(context.Background(), &pb.Message{Body: mensaje})
+		response, err := c.RegionalToOms(context.Background(), &pb.Message{Body: mensaje})
 		if err != nil {
 			log.Println("Server "+nombre+" not responding: ")
 			log.Println("Trying again in 10 seconds. . .")

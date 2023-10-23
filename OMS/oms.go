@@ -12,7 +12,7 @@ import (
 	"path/filepath"
 	"strings"
 
-	pb "github.com/Sistemas-Distribuidos-2023-02/Grupo27-Laboratorio-1/protos"
+	pb "github.com/Sistemas-Distribuidos-2023-02/Grupo27-Laboratorio-2/protos"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
 )
@@ -45,7 +45,7 @@ func ConexionGRPC(mensaje string, host string ) (string){
 	c := pb.NewChatServiceClient(conn)
 	for {
 		log.Println("Sending message to server "+nombre+": "+mensaje)
-		response, err := c.SayHello(context.Background(), &pb.Message{Body: mensaje})
+		response, err := c.OmsToDataNode(context.Background(), &pb.Message{Body: mensaje})
 		if err != nil {
 			log.Println("Server "+nombre+" not responding: ")
 			log.Println("Trying again in 10 seconds. . .")
@@ -204,6 +204,174 @@ func (s *Server)SayHello(ctx context.Context, in *pb.Message)(*pb.Message, error
 		}
 
 		return &pb.Message{Body: "OK"}, nil
+	}else{
+		return &pb.Message{Body: "Mensaje no valido"}, nil
+	}
+}
+
+func (s *Server)RegionalToOms(ctx context.Context, in *pb.Message)(*pb.Message, error){
+	log.Printf("Receive message body from client: %s", in.Body)
+
+	inMessage:=string(in.Body)
+
+	//OBTENER DIRECTORIO ACTUAL
+	directorioActual, err := os.Getwd()
+	if err != nil {
+		fmt.Println("Error al obtener el directorio actual:", err)
+	}
+
+	if strings.Contains(inMessage, "-") && (strings.Contains(inMessage, "infectado") || strings.Contains(inMessage, "muerto")){
+		//Crear id no existente
+		//Agregar nombre y apellido en DataNodes
+		nuevo_id:=CrearId()
+		split:=strings.Split(inMessage,"-") //nombre-apellido-status
+		nombre:=split[0]
+		apellido:=split[1]
+		status:=split[2]
+		var datanode string
+
+		primera_letra:=string(apellido[0])
+		if primera_letra < "M"{
+			datanode="1"
+		}else{
+			datanode="2"
+		}
+
+		//Agregar a DATA.txt
+		file, err := os.OpenFile(filepath.Join(directorioActual,"OMS","DATA.txt"), os.O_APPEND|os.O_CREATE|os.O_WRONLY,0644)
+		if err != nil{
+			fmt.Println("Ha ocurrido un error en la creacion del archivo: ",err)
+		}
+		fmt.Fprintln(file, nuevo_id+"-"+datanode+"-"+status)
+
+		//Agregar a DataNode
+		if datanode == "1"{
+			ConexionGRPC(nuevo_id+"-"+nombre+"-"+apellido,"DataNode1")
+		}else if datanode == "2"{
+			ConexionGRPC(nuevo_id+"-"+nombre+"-"+apellido,"DataNode2")
+		}
+
+		err = file.Close()
+		if err != nil {
+			fmt.Println("Error al cerrar el archivo:", err)
+		}
+
+		return &pb.Message{Body: "OK"}, nil
+	}else{
+		return &pb.Message{Body: "Mensaje no valido"}, nil
+	}
+}
+
+func (s *Server)OnuToOms(ctx context.Context, in *pb.Message)(*pb.Message, error){
+	log.Printf("Receive message body from client: %s", in.Body)
+
+	inMessage:=string(in.Body)
+
+	//OBTENER DIRECTORIO ACTUAL
+	directorioActual, err := os.Getwd()
+	if err != nil {
+		fmt.Println("Error al obtener el directorio actual:", err)
+	}
+	
+	//ESTO SE DEBBE CAMBIAR
+	if inMessage == "I"{
+		//Pedir infectados a DataNodes y devolverlos a ONU
+
+		//Leer Archivo DATA.txt
+		content, err := os.ReadFile(filepath.Join(directorioActual,"OMS","DATA.txt"))
+		if err != nil {
+			log.Fatal(err)
+		}
+		lineas := strings.Split(string(content), "\n")
+
+		var infectados_id []string
+		for i := 0; i < len(lineas); i++ {
+			if len(lineas[i]) <= 0{
+				continue
+			}
+			//fmt.Println("Linea de DATA.txt:",lineas[i])
+			split:=strings.Split(lineas[i],"-") //id-datanode-status
+			id:=split[0]
+			datanode:=split[1]
+			status:=split[2]
+
+			if status == "infectado"{
+				infectados_id = append(infectados_id, id+"-"+datanode)
+				//fmt.Println("Infectados: ",infectados_id)
+			}
+		}
+
+
+		var infectados []string
+		for i := 0; i < len(infectados_id); i++ {
+			split:=strings.Split(infectados_id[i],"-") //id-datanode
+			id:=split[0]
+			datanode:=split[1]
+
+			if datanode == "1"{
+				//Pedir a DataNode1
+				response:=ConexionGRPC(id,"DataNode1")
+				infectados = append(infectados, response)
+				
+			}else if datanode == "2"{
+				//Pedir a DataNode2
+				response:=ConexionGRPC(id,"DataNode2")
+				infectados = append(infectados, response)
+			}
+		}
+		
+		infectados_response:=strings.Join(infectados, "\n")
+		return &pb.Message{Body: infectados_response}, nil
+
+	}else if inMessage == "M"{
+		//Pedir muertos a DataNodes y devolverlos a ONU
+
+		//Leer Archivo DATA.txt
+		content, err := os.ReadFile(filepath.Join(directorioActual,"OMS","DATA.txt"))
+		if err != nil {
+			log.Fatal(err)
+		}
+		lineas := strings.Split(string(content), "\n")
+
+		var infectados_id []string
+		for i := 0; i < len(lineas); i++ {
+			if len(lineas[i]) <= 0{
+				continue
+			}
+
+			split:=strings.Split(lineas[i],"-") //id-datanode-status
+			id:=split[0]
+			datanode:=split[1]
+			status:=split[2]
+
+			if status == "muerto"{
+				infectados_id = append(infectados_id, id+"-"+datanode)
+				//fmt.Println("Infectados: ",infectados_id)
+			}
+		}
+
+
+		var infectados []string
+		for i := 0; i < len(infectados_id); i++ {
+			split:=strings.Split(infectados_id[i],"-") //id-datanode
+			id:=split[0]
+			datanode:=split[1]
+
+			if datanode == "1"{
+				//Pedir a DataNode1
+				response:=ConexionGRPC(id,"DataNode1")
+				infectados = append(infectados, response)
+				
+			}else if datanode == "2"{
+				//Pedir a DataNode2
+				response:=ConexionGRPC(id,"DataNode2")
+				infectados = append(infectados, response)
+			}
+		}
+		
+		infectados_response:=strings.Join(infectados, "\n")
+		return &pb.Message{Body: infectados_response}, nil
+
 	}else{
 		return &pb.Message{Body: "Mensaje no valido"}, nil
 	}
