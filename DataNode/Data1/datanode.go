@@ -21,6 +21,7 @@ func (s *Server)SayHello(ctx context.Context, in *pb.Message)(*pb.Message, error
 	log.Printf("Receive message body from client: %s", in.Body)
 
 	inMessage:=string(in.Body)
+	fmt.Print("inMessage: "+inMessage+"\n")
 
 	directorioActual, err := os.Getwd()
 	if err != nil {
