@@ -114,7 +114,7 @@ func main() {
 	server_name = "Australia"
 	fmt.Println("Iniciando regional "+server_name+" . . .\n")
 
-	for i := 0; i < 407; i++ {
+	for i := 0; i < 233; i++ {
 		nombresUsados[i] = i
 	}
 
