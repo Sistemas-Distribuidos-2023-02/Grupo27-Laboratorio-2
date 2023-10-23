@@ -58,7 +58,7 @@ func ObtenerNombre() string{
         fmt.Println("Error al obtener el directorio actual:", err)
         return ""
     }
-    content, err := os.ReadFile(filepath.Join(directorioActual,"Regionales","names_1.txt"))
+    content, err := os.ReadFile(filepath.Join(directorioActual,"Regionales","names.txt"))
 	if err != nil {
 		log.Fatal(err)
 	}
