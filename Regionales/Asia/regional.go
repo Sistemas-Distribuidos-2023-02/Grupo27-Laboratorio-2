@@ -20,6 +20,8 @@ func ConexionGRPC(mensaje string ){
 	
 	//Uno de estos debe cambiar quizas por "regional:50052" ya que estara en la misma VM que el central
 	//host :="localhost"
+	split:=strings.Split(mensaje,":")
+	
 	var puerto, nombre, host string
 	host="dist105.inf.santiago.usm.cl"
 	puerto ="50052"
@@ -35,7 +37,7 @@ func ConexionGRPC(mensaje string ){
 
 	c := pb.NewChatServiceClient(conn)
 	for {
-		log.Println("Sending message to server "+nombre+": "+mensaje)
+		log.Println("Sending message to server "+nombre+": "+split[1])
 		response, err := c.RegionalToOms(context.Background(), &pb.Message{Body: mensaje})
 		if err != nil {
 			log.Println("Server "+nombre+" not responding: ")
@@ -43,7 +45,7 @@ func ConexionGRPC(mensaje string ){
 			time.Sleep(10 * time.Second)
 			continue
 		}
-		log.Printf("Response from server "+nombre+": "+"%s", response.Body)
+		log.Printf("Response from server "+nombre+": "+"%s\n", response.Body)
 		break
 	}
 }

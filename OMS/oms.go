@@ -52,7 +52,7 @@ func ConexionGRPC(mensaje string, host string ) (string){
 			time.Sleep(10 * time.Second)
 			continue
 		}
-		log.Printf("Response from server "+nombre+": "+"%s", response.Body)
+		log.Printf("Response from server "+nombre+": "+"%s\n", response.Body)
 		return response.Body
 	}
 }
@@ -315,7 +315,6 @@ func (s *Server)OnuToOms(ctx context.Context, in *pb.Message)(*pb.Message, error
 			if datanode == "1"{
 				//Pedir a DataNode1
 				response:=ConexionGRPC(id,"DataNode1")
-				fmt.Println("Response from DataNode:",response)
 				infectados = append(infectados, response)
 				
 			}else if datanode == "2"{
