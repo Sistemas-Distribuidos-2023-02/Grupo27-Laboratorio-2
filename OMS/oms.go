@@ -180,7 +180,7 @@ func (s *Server)OnuToOms(ctx context.Context, in *pb.Message)(*pb.Message, error
 				}()
 			}
 		}
-		
+		wg.Wait()
 		infectados_response:=strings.Join(infectados, "\n")
 		log.Println("Sending message to ONU: INFECTADOS")
 		return &pb.Message{Body:"\n"+infectados_response+"\n"}, nil
