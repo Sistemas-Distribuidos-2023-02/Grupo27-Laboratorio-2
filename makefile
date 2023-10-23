@@ -13,16 +13,16 @@ docker-continentes:
 	docker build -t lab1:latest .
 	docker rm -f regional
 ifeq ($(HOST),localhost)
-	docker run -d -it --rm --name regional -p 50052:50052 --expose 50052 lab1:latest go run Regionales/Asia/regional.go
+	docker run -d -it --rm --name regional --expose 50052 lab1:latest go run Regionales/Asia/regional.go
 endif
 ifeq ($(HOST),dist106)
-	docker run -d -it --rm --name regional -p 50052:50052 --expose 50052 lab1:latest go run Regionales/Europa/regional.go
+	docker run -d -it --rm --name regional --expose 50052 lab1:latest go run Regionales/Europa/regional.go
 endif
 ifeq ($(HOST),dist107)
-	docker run -d -it --rm --name regional -p 50052:50052 --expose 50052 lab1:latest go run Regionales/LatinoAmerica/regional.go
+	docker run -d -it --rm --name regional --expose 50052 lab1:latest go run Regionales/LatinoAmerica/regional.go
 endif
 ifeq ($(HOST),dist108)
-	docker run -d -it --rm --name regional -p 50052:50052 --expose 50052 lab1:latest go run Regionales/Australia/regional.go
+	docker run -d -it --rm --name regional --expose 50052 lab1:latest go run Regionales/Australia/regional.go
 endif
 
 docker-OMS:
