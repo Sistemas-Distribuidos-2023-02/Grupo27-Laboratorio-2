@@ -322,7 +322,7 @@ func (s *Server)OnuToOms(ctx context.Context, in *pb.Message)(*pb.Message, error
 		}
 		
 		infectados_response:=strings.Join(infectados, "\n")
-		return &pb.Message{Body: infectados_response}, nil
+		return &pb.Message{Body:"\n"+infectados_response+"\n"}, nil
 
 	}else if inMessage == "M"{
 		//Pedir muertos a DataNodes y devolverlos a ONU
@@ -388,14 +388,39 @@ func CrearId() (string){
 
 	return id_string
 }
+func RecoverIds() (string){
+	fmt.Println("Recovering id's. . .\n")
+	directorioActual, err := os.Getwd()
+	if err != nil {
+		fmt.Println("Error al obtener el directorio actual:", err)
+		return ""
+	}
+	content, err := os.ReadFile(filepath.Join(directorioActual,"OMS","DATA.txt"))
+	if err != nil {
+		log.Fatal(err)
+	}
+	lineas := strings.Split(string(content), "\n")
+
+	for i := 0; i < len(lineas); i++ {
+		if len(lineas[i]) <= 0{
+			continue
+		}
+		split:=strings.Split(lineas[i],"-") //id-datanode-status
+				
+		id,_:=strconv.Atoi(split[0])
+		ids=append(ids,id)
+	}
+	return ""
+}
 
 
 var server_name string
 func main() {
 	
 	server_name="OMS"
-	fmt.Println("Starting "+server_name+" . . .")
+	fmt.Println("Starting "+server_name+" . . .\n")
 
+	RecoverIds()
 
 	puerto_regional:= ":50052"
 	lis_regional, err_regional:= net.Listen("tcp", puerto_regional)

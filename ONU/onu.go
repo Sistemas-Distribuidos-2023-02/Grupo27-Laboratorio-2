@@ -73,7 +73,7 @@ func main() {
 	}else{
 		fmt.Println("\nComando no reconocido!\n")
 	}
-	fmt.Println(input)
+	//fmt.Println(input)
 
 	}
 

@@ -110,7 +110,7 @@ func (s *Server)OmsToDataNode(ctx context.Context, in *pb.Message)(*pb.Message, 
 var DataNode_name string
 func main(){
 	DataNode_name="DataNode1"
-	fmt.Println("Starting "+DataNode_name+" . . .")
+	fmt.Println("Starting "+DataNode_name+" . . .\n")
 
 	puerto := ":50052"
 	lis, err := net.Listen("tcp", puerto)
