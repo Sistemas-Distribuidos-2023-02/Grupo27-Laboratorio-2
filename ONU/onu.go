@@ -42,7 +42,7 @@ func ConexionGRPC(mensaje string ){
 			time.Sleep(10 * time.Second)
 			continue
 		}
-		log.Printf("Response from server "+nombre+": "+"\n%s", response.Body,"\n")
+		log.Printf("Response from server "+nombre+": "+"\n%s\n", response.Body)
 		break
 	}
 }
