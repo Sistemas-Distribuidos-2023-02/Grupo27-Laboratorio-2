@@ -34,17 +34,19 @@ make docker-OMS
 make docker-datanode
 ```
 
-3. Despues solo en dist106 se debe ejecutar:
+3. Finalmente en todas las VM se debe ejecutar: 
+
+```
+make docker-continentes
+```
+
+4. Despues solo en dist106 se debe ejecutar:
 
 ```
 make docker-ONU
 ```
 
-4. Finalmente en todas las VM se debe ejecutar: 
 
-```
-make docker-continentes
-```
 
 5. Para revisar los log de los dockers que se ejecutan en segundo plano:
 
