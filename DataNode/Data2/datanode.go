@@ -28,14 +28,14 @@ func (s *Server)SayHello(ctx context.Context, in *pb.Message)(*pb.Message, error
 	}
 	
 	if len(inMessage) > 1{
-		fileDataNode, err := os.OpenFile(filepath.Join(directorioActual,"DataNode","Data2","Data.txt"), os.O_APPEND|os.O_CREATE|os.O_WRONLY,0644)
+		fileDataNode, err := os.OpenFile(filepath.Join(directorioActual,"DataNode","Data2","DATA.txt"), os.O_APPEND|os.O_CREATE|os.O_WRONLY,0644)
 		if err != nil{
 			fmt.Println("Ha ocurrido un error en la creacion del archivo: ",err)
 		}
 		fmt.Fprintln(fileDataNode, inMessage)
 		return &pb.Message{Body: "OK"}, nil
 	}else{
-		content, err := os.ReadFile(filepath.Join(directorioActual,"DataNode","Data2","Data.txt"))
+		content, err := os.ReadFile(filepath.Join(directorioActual,"DataNode","Data2","DATA.txt"))
 		if err != nil {
 			log.Fatal(err)
 		}
