@@ -81,6 +81,7 @@ func (s *Server)SayHello(ctx context.Context, in *pb.Message)(*pb.Message, error
 
 		var infectados_id []string
 		for i := 0; i < len(lineas); i++ {
+			fmt.Println("Linea de DATA.txt:",lineas[i])
 			split:=strings.Split(lineas[i],"-") //id-datanode-status
 			id:=split[0]
 			datanode:=split[1]
@@ -188,6 +189,11 @@ func (s *Server)SayHello(ctx context.Context, in *pb.Message)(*pb.Message, error
 			ConexionGRPC(nuevo_id+"-"+nombre+"-"+apellido,"DataNode1")
 		}else if datanode == "2"{
 			ConexionGRPC(nuevo_id+"-"+nombre+"-"+apellido,"DataNode2")
+		}
+
+		err = file.Close()
+		if err != nil {
+			fmt.Println("Error al cerrar el archivo:", err)
 		}
 
 		return &pb.Message{Body: "OK"}, nil
