@@ -65,7 +65,7 @@ func (s *Server)SayHello(ctx context.Context, in *pb.Message)(*pb.Message, error
 	//ESTO SE DEBBE CAMBIAR
 	if inMessage == "I"{
 		//Pedir infectados a DataNodes y devolverlos a ONU
-		
+
 		response:=ConexionGRPC("1")
 		return &pb.Message{Body: response}, nil
 
@@ -130,11 +130,11 @@ func main() {
 
 	grpcServer_regional:= grpc.NewServer()
 	server_regional:= &Server{}
-	go func (){pb.RegisterChatServiceServer(grpcServer_regional, server_regional)
+	go pb.RegisterChatServiceServer(grpcServer_regional, server_regional)
 	if err_regional:= grpcServer_regional.Serve(lis_regional); err_regional != nil {
 		panic(err_regional)
 	}
-	}()
+	
 
 	puerto_onu:= ":50053"
 	lis_onu, err_onu:= net.Listen("tcp", puerto_onu)
@@ -145,10 +145,10 @@ func main() {
 
 	grpcServer_onu:= grpc.NewServer()
 	server_onu:= &Server{}
-	go func () {pb.RegisterChatServiceServer(grpcServer_onu, server_onu)
+	go pb.RegisterChatServiceServer(grpcServer_onu, server_onu)
 	if err_onu := grpcServer_onu.Serve(lis_onu); err_onu != nil {
 		panic(err_onu)
 	}
-	}()
+	
 	
 }
