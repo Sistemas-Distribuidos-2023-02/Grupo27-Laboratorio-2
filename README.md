@@ -34,13 +34,13 @@ make docker-OMS
 make docker-datanode
 ```
 
-3. Finalmente en todas las VM se debe ejecutar: 
+3. En todas las VM se debe ejecutar: 
 
 ```
 make docker-continentes
 ```
 
-4. Despues solo en dist106 se debe ejecutar:
+4. Solo en dist106 se debe ejecutar:
 
 ```
 make docker-ONU
