@@ -34,7 +34,7 @@ else
 	echo "Ejecutar SOLO en dist105"
 endif
 
-dockeratanode:
+docker-datanode:
 	docker build -t lab1:latest .
 	docker rm -f datanode
 ifeq ($(HOST),dist107)
